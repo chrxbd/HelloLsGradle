@@ -1,14 +1,13 @@
 import Process.tbtoexl.HTMLTOExcel;
 import jxl.read.biff.BiffException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import tools.ExcelReader;
-import tools.ExcelWriter;
+import tools.*;
 
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
 
-import static Process.tbtoexl.ConvertHtml2Excel.table2Excel;
+import Process.ExportProcess;
 
 public class HelloLs extends JDialog {
     private JPanel contentPane;
@@ -49,6 +48,27 @@ public class HelloLs extends JDialog {
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
+            }
+        });
+        export.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fd = new JFileChooser();
+                fd.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                fd.showOpenDialog(null);
+                File f = fd.getSelectedFile();
+                File[] files = f.listFiles();
+                String[] contents = new String[files.length];
+                int i = 0;
+                for (File file : files) {
+                    contents[i] = tools.FileReader.fileGetContents(file.getAbsolutePath());
+                    i++;
+                    //System.out.println(file.getAbsolutePath());
+                }
+
+                ExportProcess.process(contents, f.getAbsolutePath());
+                JOptionPane.showMessageDialog(null, "操作完成");
+
             }
         });
     }
