@@ -1,3 +1,4 @@
+import Process.classify.MainProcess;
 import Process.tbtoexl.HTMLTOExcel;
 import jxl.read.biff.BiffException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -43,11 +44,9 @@ public class HelloLs extends JDialog {
             if (f != null) {
                 ///读取classpath目录下面的路径
                 String path = f.getAbsolutePath();
-                try {
-                    HTMLTOExcel.toExcel(path, "/Users/baidu/Desktop/testss.xls");
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+                MainProcess.process(f.getAbsoluteFile(), fd.getCurrentDirectory().toString());
+                JOptionPane.showMessageDialog(null, "操作完成");
+                //HTMLTOExcel.toExcel(path, "/Users/baidu/Desktop/testss.xls");
             }
         });
         export.addActionListener(new ActionListener() {

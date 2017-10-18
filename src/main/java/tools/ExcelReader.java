@@ -2,6 +2,9 @@ package tools;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import jxl.Sheet;
 import jxl.Workbook;
@@ -13,7 +16,7 @@ import jxl.read.biff.BiffException;
  */
 public class ExcelReader {
 
-    public static String[][] read(File xlsFile) throws BiffException, IOException {
+    public static List<String[]> read(File xlsFile) throws BiffException, IOException {
         if (xlsFile == null) {
             return null;
         }
@@ -27,12 +30,14 @@ public class ExcelReader {
             int rows = sheet.getRows();
             // 获得列数
             int cols = sheet.getColumns();
-            String[][] result = new String[rows][cols];
+            List<String[]> result = new LinkedList<>();
             // 读取数据
             for (int row = 0; row < rows; row++) {
+                String[] subRs = new String[cols];
                 for (int col = 0; col < cols; col++) {
-                    result[row][col] = sheet.getCell(col, row).getContents();
+                    subRs[col] = sheet.getCell(col, row).getContents();
                 }
+                result.add(subRs);
             }
             return result;
         }
